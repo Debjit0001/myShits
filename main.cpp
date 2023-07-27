@@ -1,10 +1,10 @@
 #include<iostream>
 using namespace std;
 
-void insertElement(int arr[], int& size, int insertionIndex, int newItem) {
+int* insertElement(int arr[], int& size, int insertionIndex, int newItem) {
     if (insertionIndex < 0 || insertionIndex > size) {
         cout << "Invalid insertion index." << endl;
-        return;
+        exit(0);
     }
 
     int* newArr = new int[++size];
@@ -20,17 +20,13 @@ void insertElement(int arr[], int& size, int insertionIndex, int newItem) {
             newArr[i] = arr[i-1];
     }
 
-    cout << "\nNew array after insertion: " << endl;
-    for(int i = 0; i < size; i++) 
-        cout << newArr[i] << " ";
-
-    delete[] newArr;
+    return &newArr[0];
 }
 
-void deleteElement(int arr[], int& size, int deletionIndex) {
+int* deleteElement(int arr[], int& size, int deletionIndex) {
     if (deletionIndex < 0 || deletionIndex >= size) {
         cout << "Invalid deletion index." << endl;
-        return;
+        exit(0);
     }
 
     int* newArr = new int[--size];
@@ -43,11 +39,7 @@ void deleteElement(int arr[], int& size, int deletionIndex) {
             newArr[i] = arr[i + 1];
     }
 
-    cout << "\nNew array after deletion: " << endl;
-    for(int i = 0; i < size; i++) 
-        cout << newArr[i] << " ";
-
-    delete[] newArr;
+    return &newArr[0];
 }
 
 int main(int argc, char const *argv[])
@@ -65,69 +57,75 @@ int main(int argc, char const *argv[])
     int option;
     cin >> option;
 
+    int* resArr;
+
     switch(option){
         case 1 :
             int newItem;
             cout << "\nEnter item to insert: ";
             cin >> newItem;
 
-            cout << "Enter 1 to insert at the start \nEnter 2 to insert in the end \nEnter 3 to insert in any other index \nYour choice: ";
+            cout << "\nEnter 1 to insert at the start \nEnter 2 to insert in the end \nEnter 3 to insert in any other index \nYour choice: ";
             int choice;
             cin >> choice;
 
             switch (choice)
             {
                 case 1:
-                    insertElement(arr, size, 0, newItem);
+                    resArr = insertElement(arr, size, 0, newItem);
                     break;
                 
                 case 2:
-                    insertElement(arr, size, size, newItem);
+                    resArr = insertElement(arr, size, size, newItem);
                     break;
 
                 case 3:
                     cout << "\nEnter index: ";
                     int idx;
                     cin >> idx;
-                    insertElement(arr, size, idx, newItem);
+                    resArr = insertElement(arr, size, idx, newItem);
                     break;
                 
                 default:
-                    cout << "Invalid choice";
+                    cout << "Invalid choice!";
                     break;
             }
             break;
 
         case 2 :
-            cout << "Enter 1 to delete at the start \nEnter 2 to delete in the end \nEnter 3 to delete any other index \nYour choice: ";
+            cout << "\nEnter 1 to delete at the start \nEnter 2 to delete in the end \nEnter 3 to delete any other index \nYour choice: ";
             cin >> choice;
 
             switch (choice)
             {
                 case 1:
-                    deleteElement(arr, size, 0);
+                    resArr = deleteElement(arr, size, 0);
                     break;
                 
                 case 2:
-                    deleteElement(arr, size, size-1);
+                    resArr = deleteElement(arr, size, size-1);
                     break;
 
                 case 3:
                     cout << "\nEnter index: ";
                     int idx;
                     cin >> idx;
-                    deleteElement(arr, size, idx);
+                    resArr = deleteElement(arr, size, idx);
                     break;
                 
                 default:
-                    cout << "Invalid choice";
+                    cout << "Invalid choice!";
                     break;
             }
             break;
 
             default:
-                cout << "Invalid choice";
+                cout << "Invalid choice!";
     }
+
+    cout << "Resultant array:" << endl;
+    for (int i = 0; i < size; i++)
+        cout << resArr[i] << " ";
 
     return 0;
 }
