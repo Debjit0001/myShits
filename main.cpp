@@ -20,7 +20,7 @@ int* insertElement(int arr[], int& size, int insertionIndex, int newItem) {
             newArr[i] = arr[i-1];
     }
 
-    return &newArr[0];
+    return newArr;
 }
 
 int* deleteElement(int arr[], int& size, int deletionIndex) {
@@ -39,7 +39,7 @@ int* deleteElement(int arr[], int& size, int deletionIndex) {
             newArr[i] = arr[i + 1];
     }
 
-    return &newArr[0];
+    return newArr;
 }
 
 int main(int argc, char const *argv[])
@@ -123,7 +123,7 @@ int main(int argc, char const *argv[])
                 cout << "Invalid choice!";
     }
 
-    cout << "Resultant array:" << endl;
+    cout << "\nResultant array:" << endl;
     for (int i = 0; i < size; i++)
         cout << resArr[i] << " ";
 
