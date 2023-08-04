@@ -90,7 +90,7 @@ class LinkedList : public Node {
         }
 
         bool isEmpty() { return empty; }
-        int size() { return size; }
+        int getSize() { return size; }
 };
 
 int main()
