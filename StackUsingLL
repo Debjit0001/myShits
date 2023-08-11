@@ -5,12 +5,10 @@ using namespace std;
 class Node {
     public:
         int val;
-        Node* next;
         Node* prev;
 
         Node(int val) {
             this -> val = val;
-            this -> next = NULL;
             this -> prev = NULL;
         }
 
@@ -35,10 +33,9 @@ class Stack : private Node {
                 // the stack already has a top and so we have to create a new node and set that to top.
                 Node* newNode = new Node(val);
                 newNode->prev=top;
-                top->next = newNode;
                 top = newNode;
             } else {
-                // create a node and set it as the head of stack.
+                // create a node and set it as the top of stack.
                 Node *newNode = new Node (val);
                 top = newNode;
                 this -> empty = false;
