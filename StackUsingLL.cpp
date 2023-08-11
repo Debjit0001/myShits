@@ -47,9 +47,12 @@ class Stack : private Node {
             assert (!isEmpty()); // if this is false then the execution of the program will stop
 
             Node* temp = top;
+            int val = temp->val;
             top = top->prev;
-            delete temp;
             --size;
+            delete temp;
+
+            return val;
         }
 
         int peek() {
