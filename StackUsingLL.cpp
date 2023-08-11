@@ -18,18 +18,16 @@ class Node {
 class Stack : private Node {
     private:
         int size;
-        bool empty;
         Node* top;
 
     public:
         Stack() {
             size = 0;
-            empty = true;
             top = NULL;
         }
 
         void push(int val) {
-            if(!this->empty) {
+            if(!this->isEmpty()) {
                 // the stack already has a top and so we have to create a new node and set that to top.
                 Node* newNode = new Node(val);
                 newNode->prev=top;
@@ -38,7 +36,6 @@ class Stack : private Node {
                 // create a node and set it as the top of stack.
                 Node *newNode = new Node (val);
                 top = newNode;
-                this -> empty = false;
             }
             ++size;
         }
@@ -61,7 +58,7 @@ class Stack : private Node {
         }
 
         int getSize() { return size; }
-        bool isEmpty() { return empty; }
+        bool isEmpty() { return top==nullptr; }
 
         ~Stack() {
             while (!isEmpty()) 
