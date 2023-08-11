@@ -2,12 +2,14 @@
 #include <cassert>
 using namespace std;
 
+// using a template so that the stack can hold any type of data
+template <typename T>
 class Node {
     public:
-        int val;
+        T val;
         Node* prev;
 
-        Node(int val) {
+        Node(T val) {
             this -> val = val;
             this -> prev = NULL;
         }
@@ -15,10 +17,11 @@ class Node {
         Node() {}
 };
 
-class Stack : private Node {
+template <typename T>
+class Stack {
     private:
         int size;
-        Node* top;
+        Node<T>* top;
 
     public:
         Stack() {
@@ -26,25 +29,25 @@ class Stack : private Node {
             top = NULL;
         }
 
-        void push(int val) {
+        void push(T val) {
             if(!this->isEmpty()) {
                 // the stack already has a top and so we have to create a new node and set that to top.
-                Node* newNode = new Node(val);
+                Node<T>* newNode = new Node<T> (val);
                 newNode->prev=top;
                 top = newNode;
             } else {
                 // create a node and set it as the top of stack.
-                Node *newNode = new Node (val);
+                Node<T>* newNode = new Node<T> (val);
                 top = newNode;
             }
             ++size;
         }
 
-        int pop() {
+        T pop() {
             assert (!isEmpty()); // if this is false then the execution of the program will stop
 
-            Node* temp = top;
-            int val = temp->val;
+            Node<T>* temp = top;
+            T val = temp->val;
             top = top->prev;
             --size;
             delete temp;
@@ -52,7 +55,7 @@ class Stack : private Node {
             return val;
         }
 
-        int peek() {
+        T peek() {
             assert (!isEmpty());
             return top->val;
         }
@@ -60,28 +63,32 @@ class Stack : private Node {
         int getSize() { return size; }
         bool isEmpty() { return top==nullptr; }
 
-        ~Stack() {
+        void clear() {
             while (!isEmpty()) 
                 pop();
+        }
+
+        ~Stack() {
+            clear();
         }
 };
 
 int main()
 {
-    Stack stack;
+    Stack<int> myStack;
 
-    stack.push(10);
-    stack.push(20);
-    stack.push(30);
-    stack.push(40);
-    stack.push(50);
+    myStack.push(10);
+    myStack.push(20);
+    myStack.push(30);
+    myStack.push(40);
+    myStack.push(50);
 
-    stack.pop();
+    myStack.pop();
 
-    int top = stack.peek();
+    int top = myStack.peek();
     cout << "Top element: " << top <<endl;
 
-    cout << "Size of stack: " << stack.getSize() << endl;
+    cout << "Size of stack: " << myStack.getSize() << endl;
 
     return 0;
 }
