@@ -12,6 +12,7 @@ struct linkedList;
 typedef void (*insertAtFunc)(struct linkedList*, int, int);
 typedef void (*insertFirstFunc)(struct linkedList*, int);
 typedef void (*insertLastFunc)(struct linkedList*, int);
+typedef void (*deleteAtFunc)(struct linkedList*, int);
 
 typedef struct linkedList {
     int size;
@@ -19,6 +20,7 @@ typedef struct linkedList {
     insertAtFunc insertAt;
     insertFirstFunc insertFirst;
     insertLastFunc insertLast;
+    deleteAtFunc deleteAt;
 } LinkedList;
 
 void insertFirst(LinkedList* list, int value) {
@@ -80,6 +82,30 @@ void insertAt(LinkedList* list, int value, int index) {
     currNode -> next = newNode;
 }
 
+void deleteAt(LinkedList* list, int index) {
+    if(index < 0 || index > list->size)
+        return;
+
+    //Special case: deleting head node
+    if(index == 0) {
+        node* tempNode = list -> head;
+        list -> head = list -> head -> next;
+        free(tempNode);
+        --list->size;
+        return;
+    }
+
+    int currIdx = 1;
+    node* currNode = list -> head;
+    while(currIdx++ < index) 
+        currNode = currNode -> next;
+
+    node* delNode = currNode -> next;
+    currNode -> next = delNode -> next;
+    free(delNode);
+    --list->size;
+}
+
 // Printing the linked list
 void printList(struct linkedList *list) {
     node *currNode = list -> head;
@@ -89,15 +115,17 @@ void printList(struct linkedList *list) {
         printf("%d ", currNode -> value);
         currNode = currNode -> next;
     }
+    printf("\n");
 }
 
 // Initializing the linked list
 void initList(LinkedList *list) {
     list -> size = 0;
-    list->head = NULL;
-    list->insertAt = insertAt;
-    list->insertFirst = insertFirst;
-    list->insertLast = insertLast;
+    list -> head = NULL;
+    list -> insertAt = insertAt;
+    list -> insertFirst = insertFirst;
+    list -> insertLast = insertLast;
+    list -> deleteAt = deleteAt;
 }
 
 int main(int argc, char const *argv[])
@@ -109,8 +137,11 @@ int main(int argc, char const *argv[])
     list.insertLast(&list, 20);
     list.insertLast(&list, 30);
     list.insertLast(&list, 40);
-    list.insertAt(&list, 15, 2);
 
+    list.insertAt(&list, 15, 2);
+    printList(&list);
+
+    list.deleteAt(&list, 2);
     printList(&list);
     
     return 0;
