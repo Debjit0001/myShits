@@ -15,12 +15,18 @@ int main()
     int size = 0;
 
     // insertion at the tail/end:
-    for (int i = 0; i < 5; i++)
+    int flag = 1; // C te 1=true ar 0=false
+    while(flag)
     {
+        // first e input ta nebo:
+        int val;
+        printf("Enter a value to insert: ");
+        scanf("%d", &val);
+
         /* allocating memory for new node */
         struct node *newNode = (struct node *)malloc(sizeof(struct node));
         /* assign data and next pointer of the new node*/
-        newNode->value = i + 1;
+        newNode->value = val;
         newNode->next = NULL;
 
         if (head == NULL)
@@ -34,6 +40,10 @@ int main()
             tail = tail->next;
         }
         ++size;
+
+        //sesh e dekhbo user aro insert korte chaiche ki na
+        printf("do you want to keep inserting?\n");
+        scanf("%d", &flag);
     }
 
     // printing the linked list:
